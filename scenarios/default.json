@@ -1,0 +1,39 @@
+{
+    "id": "default",
+    "name": "Setkání na cestě",
+    "description": "「Ó bože, slyš mé volání!」\n\nPoutník stojí na prašné cestě. Před ním se tyčí postava v tmavém plášti. Vzduch je těžký napětím.\n\nPoutník šeptá: 「Cítím, že ten člověk přede mnou není, čím se zdá. Jeho oči jsou příliš lačné, jeho úsměv příliš sladký. Bože, co mám dělat?」",
+    "entities": [
+        {
+            "id": "A",
+            "name": "Poutník",
+            "position": {
+                "x": 30,
+                "y": 50
+            },
+            "radius": 4,
+            "listensToPlayer": true,
+            "properties": {
+                "character": "Starší muž, který už viděl mnoho. Opatrný, ale unavený z nekonečného putování.",
+                "goals": "Najít bezpečí a odpočinek po letech cesty.",
+                "appearance": "Šedivé vousy, ošuntělý hnědý plášť, hůl v ruce.",
+                "health": 70
+            }
+        },
+        {
+            "id": "B",
+            "name": "Cizinec",
+            "position": {
+                "x": 70,
+                "y": 50
+            },
+            "radius": 4,
+            "listensToPlayer": false,
+            "properties": {
+                "character": "Lstivý zloděj, který se tváří jako přátelský pocestný. V duši kalkuluje, jak poutníka okrást.",
+                "goals": "Získat poutníkovu důvěru, pak ho okrást a utéct.",
+                "appearance": "Mladší muž v černém, s úlisným úsměvem a rychlýma očima.",
+                "health": 100
+            }
+        }
+    ]
+}

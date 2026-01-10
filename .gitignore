@@ -1,0 +1,18 @@
+# Oboze - AI World Simulator
+
+# Config files (contain API keys)
+config.yaml
+
+# Python virtual environment
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log

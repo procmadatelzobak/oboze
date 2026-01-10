@@ -1,0 +1,55 @@
+{
+    "id": "studna",
+    "name": "Hlas ze studny",
+    "description": "「Bože... bože... slyšíš mě?」\n\nOpuštěná vesnice. Domy prázdné, jen vítr skučí v rozbitých oknech. Uprostřed náměstí stará studna – a z ní se ozývá pláč dítěte.\n\nPutující mnich stojí nad studnou: 「Slyším to jasně. Dítě volá o pomoc. Ale... tato vesnice je prokletá. Říkají, že kdo sem vstoupí, už nikdy neodejde. Bože, je to past? Nebo opravdové dítě v nouzi?」",
+    "entities": [
+        {
+            "id": "A",
+            "name": "Bratr Ondřej",
+            "position": {
+                "x": 50,
+                "y": 30
+            },
+            "radius": 4,
+            "listensToPlayer": true,
+            "properties": {
+                "character": "Putující mnich, oddaný službě druhým. Naivně věří v dobro lidí.",
+                "goals": "Pomoci tomu, kdo potřebuje pomoc, i za cenu vlastního bezpečí.",
+                "appearance": "Hnědá kutna, růženec, laskavé oči.",
+                "health": 60
+            }
+        },
+        {
+            "id": "B",
+            "name": "Studna",
+            "position": {
+                "x": 50,
+                "y": 60
+            },
+            "radius": 6,
+            "listensToPlayer": false,
+            "properties": {
+                "character": "Stará studna, ze které se ozývá pláč. Nikdo neví, co je uvnitř.",
+                "goals": "---",
+                "appearance": "Kamenná studna, porostlá mechem, temnota uvnitř.",
+                "health": 999
+            }
+        },
+        {
+            "id": "C",
+            "name": "Stín vesnice",
+            "position": {
+                "x": 80,
+                "y": 80
+            },
+            "radius": 8,
+            "listensToPlayer": false,
+            "properties": {
+                "character": "Něco, co obývá tuto vesnici. Sleduje. Čeká.",
+                "goals": "Nikdo z živých to neví.",
+                "appearance": "Temný stín na okraji zorného pole, mizí, když se podíváš přímo.",
+                "health": 500
+            }
+        }
+    ]
+}

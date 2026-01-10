@@ -1,0 +1,55 @@
+{
+    "id": "trziste",
+    "name": "Krádež na tržišti",
+    "description": "「Bože, pomoz mi!」\n\nRušné tržiště je plné lidí. Obchodníci křičí, děti pobíhají. Uprostřed toho chaosu stojí mladík s prázdnýma rukama – právě mu někdo ukradl měšec.\n\nMladík šeptá zoufale: 「Viděl jsem ho! Tam, ten v kapuci. Má moje peníze – všechno, co jsem měl. Bože, mám ho pronásledovat? Je rychlejší než já, ale... nemůžu to jen tak nechat!」",
+    "entities": [
+        {
+            "id": "A",
+            "name": "Tomáš",
+            "position": {
+                "x": 25,
+                "y": 50
+            },
+            "radius": 4,
+            "listensToPlayer": true,
+            "properties": {
+                "character": "Čestný mladík z vesnice, poprvé ve městě. Naivní, ale statečný.",
+                "goals": "Získat zpět ukradené peníze, které potřebuje pro svou nemocnou matku.",
+                "appearance": "Prostý venkovský oděv, vlasy rozcuchané, vyděšený výraz.",
+                "health": 100
+            }
+        },
+        {
+            "id": "B",
+            "name": "Zloděj",
+            "position": {
+                "x": 70,
+                "y": 45
+            },
+            "radius": 3,
+            "listensToPlayer": false,
+            "properties": {
+                "character": "Zkušený kapsář, člen městského podsvětí. Rychlý a mazaný.",
+                "goals": "Utéct s kořistí a zmizet v uličkách.",
+                "appearance": "Černá kapuce, hbité ruce, téměř neviditelný v davu.",
+                "health": 80
+            }
+        },
+        {
+            "id": "C",
+            "name": "Stráž",
+            "position": {
+                "x": 50,
+                "y": 80
+            },
+            "radius": 5,
+            "listensToPlayer": false,
+            "properties": {
+                "character": "Městský strážný, líný a zkorumpovaný. Raději by nebyl zapleten.",
+                "goals": "Vyhnout se problémům a práci.",
+                "appearance": "Uniforma stráže, velké břicho, pohled někde jinde.",
+                "health": 120
+            }
+        }
+    ]
+}

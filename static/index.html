@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ó bože</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <!-- Main Menu -->
+    <div class="menu-overlay" id="menu-overlay">
+        <div class="menu-container">
+            <h1 class="menu-title">Ó BOŽE</h1>
+            <p class="menu-subtitle">Simulátor světa</p>
+
+            <div class="menu-tabs">
+                <button class="menu-tab active" data-tab="scenarios">Scénáře</button>
+                <button class="menu-tab" data-tab="docs">Dokumentace</button>
+                <button class="menu-tab" data-tab="settings">Nastavení</button>
+            </div>
+
+            <div class="menu-content" id="tab-scenarios">
+                <div class="scenario-list" id="scenario-list">
+                    <!-- Scenarios loaded dynamically -->
+                </div>
+            </div>
+
+            <div class="menu-content hidden" id="tab-docs">
+                <div class="docs-content">
+                    <h2>Jak hrát</h2>
+                    <pre class="ascii-diagram">
+┌─────────────────────────────────────────────────────────┐
+│                      Ó BOŽE                             │
+│                                                         │
+│  ┌─────────────────┐   ┌─────────────────────────────┐  │
+│  │   CHAT PANEL    │   │        HERNÍ MAPA          │  │
+│  │  [Bože mluví]   │   │    ○ ← Bytost A             │  │
+│  │  [Ty odpovídáš] │   │    ○ ← Bytost B             │  │
+│  │  ┌───────────┐  │   │                             │  │
+│  │  │   Vstup   │  │   │                             │  │
+│  │  └───────────┘  │   │                             │  │
+│  └─────────────────┘   └─────────────────────────────┘  │
+└─────────────────────────────────────────────────────────┘
+                    </pre>
+
+                    <h3>Tvá role</h3>
+                    <p>Jsi <strong>bože</strong> - božská bytost, která může radit
+                        těm, kdo jí naslouchají.</p>
+
+                    <h3>Jak to funguje</h3>
+                    <ol>
+                        <li>Vyber si scénář ze seznamu</li>
+                        <li>Přečti si situaci v chatu</li>
+                        <li>Napiš radu bytosti</li>
+                        <li>Klikni "Spustit simulaci"</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="menu-content hidden" id="tab-settings">
+                <div class="settings-content">
+                    <h2>Nastavení API</h2>
+
+                    <div class="settings-group">
+                        <label class="settings-label">API Klíč (Gemini)</label>
+                        <div class="settings-row">
+                            <input type="password" id="api-key-input" class="settings-input"
+                                placeholder="Zadej API klíč...">
+                            <button class="btn" id="btn-toggle-key">👁</button>
+                        </div>
+                        <p class="settings-hint" id="api-key-status">Načítám...</p>
+                    </div>
+
+                    <div class="settings-group">
+                        <label class="settings-label">Model</label>
+                        <select id="model-select" class="settings-select">
+                            <option value="">Načítám modely...</option>
+                        </select>
+                        <p class="settings-hint">Vyber model pro generování scénářů</p>
+                    </div>
+
+                    <div class="settings-group">
+                        <button class="btn btn-primary" id="btn-save-settings">Uložit nastavení</button>
+                        <button class="btn" id="btn-refresh-models">Obnovit seznam modelů</button>
+                    </div>
+
+                    <div class="settings-status" id="settings-status"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Container -->
+    <div class="container" id="game-container">
+        <!-- Chat Panel (Left) -->
+        <div class="chat-panel">
+            <div class="chat-header">
+                <span>Ó BOŽE</span>
+                <button class="btn-icon" id="btn-menu" title="Menu">☰</button>
+            </div>
+
+            <div class="chat-messages" id="chat-messages">
+                <!-- Messages will be inserted here -->
+            </div>
+
+            <div class="chat-input-container">
+                <textarea class="chat-input" id="user-input" rows="3"
+                    placeholder="Napiš radu bytosti, která ti naslouchá..."></textarea>
+                <div class="chat-buttons">
+                    <button class="btn" id="btn-send">Odeslat</button>
+                    <button class="btn btn-primary" id="btn-simulate" disabled>Spustit simulaci</button>
+                </div>
+                <div class="chat-buttons">
+                    <button class="btn" id="btn-restart">Restart scénáře</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Panel (Right - Square Map) -->
+        <div class="game-panel">
+            <div class="game-container">
+                <canvas id="game-canvas"></canvas>
+                <div class="status-bar" id="status-bar">Připojování...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/game.js"></script>
+    <script src="/static/js/chat.js"></script>
+    <script>
+        // Settings functionality
+        function loadConfig() {
+            fetch('/api/config')
+                .then(r => r.json())
+                .then(data => {
+                    const status = document.getElementById('api-key-status');
+                    const modelSelect = document.getElementById('model-select');
+
+                    if (data.gemini) {
+                        if (data.gemini.api_key_set) {
+                            status.textContent = 'Klíč nastaven: ' + data.gemini.api_key_masked;
+                            status.style.color = '#0f0';
+                        } else {
+                            status.textContent = 'Klíč není nastaven';
+                            status.style.color = '#f00';
+                        }
+
+                        // Set current model if available
+                        if (data.gemini.model) {
+                            modelSelect.dataset.currentModel = data.gemini.model;
+                        }
+                    }
+                })
+                .catch(e => {
+                    document.getElementById('api-key-status').textContent = 'Chyba: ' + e;
+                });
+        }
+
+        function loadModels() {
+            const select = document.getElementById('model-select');
+            select.innerHTML = '<option value="">Načítám modely...</option>';
+
+            fetch('/api/models')
+                .then(r => r.json())
+                .then(data => {
+                    if (data.error) {
+                        select.innerHTML = '<option value="">Chyba: ' + data.error + '</option>';
+                        return;
+                    }
+
+                    const currentModel = select.dataset.currentModel || 'gemini-2.0-flash';
+                    select.innerHTML = data.models.map(m =>
+                        `<option value="${m.name}" ${m.name === currentModel ? 'selected' : ''}>${m.display_name || m.name}</option>`
+                    ).join('');
+
+                    if (data.models.length === 0) {
+                        select.innerHTML = '<option value="">Žádné modely (zkontroluj API klíč)</option>';
+                    }
+                })
+                .catch(e => {
+                    select.innerHTML = '<option value="">Chyba: ' + e + '</option>';
+                });
+        }
+
+        function saveSettings() {
+            const apiKey = document.getElementById('api-key-input').value;
+            const model = document.getElementById('model-select').value;
+            const status = document.getElementById('settings-status');
+
+            const data = {};
+            if (apiKey) data.api_key = apiKey;
+            if (model) data.model = model;
+
+            status.textContent = 'Ukládám...';
+            status.style.color = '#888';
+
+            fetch('/api/config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+                .then(r => r.json())
+                .then(result => {
+                    if (result.success) {
+                        status.textContent = 'Uloženo!';
+                        status.style.color = '#0f0';
+                        document.getElementById('api-key-input').value = '';
+                        loadConfig();
+                        loadModels();
+                    } else {
+                        status.textContent = 'Chyba: ' + result.error;
+                        status.style.color = '#f00';
+                    }
+                })
+                .catch(e => {
+                    status.textContent = 'Chyba: ' + e;
+                    status.style.color = '#f00';
+                });
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            const game = new GameEngine('game-canvas');
+            const chat = new ChatInterface('chat-messages', 'user-input', 'btn-send', 'btn-simulate', 'status-bar', game);
+
+            // Menu functionality
+            const menuOverlay = document.getElementById('menu-overlay');
+            const gameContainer = document.getElementById('game-container');
+            const btnMenu = document.getElementById('btn-menu');
+            const btnRestart = document.getElementById('btn-restart');
+            const scenarioList = document.getElementById('scenario-list');
+            const menuTabs = document.querySelectorAll('.menu-tab');
+
+            // Tab switching
+            menuTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    menuTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.querySelectorAll('.menu-content').forEach(c => c.classList.add('hidden'));
+                    document.getElementById('tab-' + tab.dataset.tab).classList.remove('hidden');
+
+                    // Load settings data when switching to settings tab
+                    if (tab.dataset.tab === 'settings') {
+                        loadConfig();
+                        loadModels();
+                    }
+                });
+            });
+
+            // Load scenarios
+            fetch('/api/scenarios')
+                .then(r => r.json())
+                .then(data => {
+                    scenarioList.innerHTML = data.scenarios.map(s => `
+                        <div class="scenario-item" data-id="${s.id}">
+                            <div class="scenario-name">${s.name}</div>
+                            <div class="scenario-desc">${s.description || ''}</div>
+                        </div>
+                    `).join('');
+
+                    // Click handlers
+                    scenarioList.querySelectorAll('.scenario-item').forEach(item => {
+                        item.addEventListener('click', () => {
+                            const id = item.dataset.id;
+                            chat.loadScenarioById(id);
+                            menuOverlay.classList.add('hidden');
+                            gameContainer.classList.remove('hidden');
+                        });
+                    });
+                });
+
+            // Menu button
+            btnMenu.addEventListener('click', () => {
+                menuOverlay.classList.remove('hidden');
+                gameContainer.classList.add('hidden');
+            });
+
+            // Restart button
+            btnRestart.addEventListener('click', () => {
+                chat.restart();
+            });
+
+            // Settings buttons
+            document.getElementById('btn-save-settings').addEventListener('click', saveSettings);
+            document.getElementById('btn-refresh-models').addEventListener('click', loadModels);
+            document.getElementById('btn-toggle-key').addEventListener('click', () => {
+                const input = document.getElementById('api-key-input');
+                input.type = input.type === 'password' ? 'text' : 'password';
+            });
+
+            // Show menu initially
+            menuOverlay.classList.remove('hidden');
+            gameContainer.classList.add('hidden');
+        });
+    </script>
+</body>
+
+</html>

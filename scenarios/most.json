@@ -1,0 +1,39 @@
+{
+    "id": "most",
+    "name": "Most přes propast",
+    "description": "「Ó bože... jestli mě slyšíš...」\n\nStarý provazový most se houpe nad bezednou propastí. Na jedné straně stojí rytíř. Na druhé čeká jeho nepřítel – muž, který mu zabil bratra.\n\nRytíř svírá meč: 「Celý život jsem čekal na tuto chvíli. Pomsta je na dosah. Ale ten most... sotva udrží jednoho. Bože, je pomsta hodna mého života?」",
+    "entities": [
+        {
+            "id": "A",
+            "name": "Rytíř Václav",
+            "position": {
+                "x": 15,
+                "y": 50
+            },
+            "radius": 5,
+            "listensToPlayer": true,
+            "properties": {
+                "character": "Zbídačelý rytíř, posedlý pomstou. Kdysi čestný, teď ho žene jen nenávist.",
+                "goals": "Zabít vraha svého bratra, i za cenu vlastního života.",
+                "appearance": "Rezavá zbroj, meč poznamenaný bitvami, oči plné bolesti.",
+                "health": 85
+            }
+        },
+        {
+            "id": "B",
+            "name": "Žoldnéř Kryštof",
+            "position": {
+                "x": 85,
+                "y": 50
+            },
+            "radius": 5,
+            "listensToPlayer": false,
+            "properties": {
+                "character": "Válečný zločinec, který pracuje pro toho, kdo platí. Nemá svědomí.",
+                "goals": "Přežít za každou cenu. Pokud přijde boj, utéct.",
+                "appearance": "Špinavá kožená zbroj, jizvy na tváři, cynický úsměv.",
+                "health": 100
+            }
+        }
+    ]
+}

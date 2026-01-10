@@ -1,0 +1,15 @@
+# Ó bože - Configuration
+# Copy this file to config.yaml and fill in your API key
+
+gemini:
+  api_key: "YOUR_API_KEY_HERE"
+  model: "gemini-2.0-flash"
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+
+game:
+  map_size: 100
+  max_steps_per_command: 200
+  step_duration_ms: 16  # ~60fps

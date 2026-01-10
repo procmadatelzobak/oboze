@@ -1,0 +1,55 @@
+{
+    "id": "les",
+    "name": "Hlasy v lese",
+    "description": "「Ó bože, prosím, veď mě!」\n\nMladá žena stojí uprostřed temného lesa. Ze všech stran se ozývají šepoty. Mezi stromy se mihne stín.\n\nŽena šeptá s rozechvělým hlasem: 「Ztratila jsem se. Ten les... mluví. A něco mě sleduje. Cítím to. Bože, mám utéct? Nebo stát a čelit tomu?」",
+    "entities": [
+        {
+            "id": "A",
+            "name": "Marta",
+            "position": {
+                "x": 50,
+                "y": 50
+            },
+            "radius": 4,
+            "listensToPlayer": true,
+            "properties": {
+                "character": "Odvážná mladá bylinkářka, která se vydala do lesa pro vzácné byliny. Teď toho lituje.",
+                "goals": "Přežít a najít cestu z lesa zpět do vesnice.",
+                "appearance": "Zelený plášť, proutěný košík, vlasy svázané do copu.",
+                "health": 100
+            }
+        },
+        {
+            "id": "B",
+            "name": "Stín",
+            "position": {
+                "x": 85,
+                "y": 30
+            },
+            "radius": 3,
+            "listensToPlayer": false,
+            "properties": {
+                "character": "Lesní duch, strážce starých stromů. Není zlý, ale chrání svůj les před vetřelci.",
+                "goals": "Vyhnat vetřelce z lesa, nebo zjistit její úmysly.",
+                "appearance": "Nejasná silueta mezi stromy, oči svítící slabým zeleným světlem.",
+                "health": 200
+            }
+        },
+        {
+            "id": "C",
+            "name": "Vlk",
+            "position": {
+                "x": 20,
+                "y": 70
+            },
+            "radius": 3,
+            "listensToPlayer": false,
+            "properties": {
+                "character": "Starý vlk, který sleduje dění. Není agresivní, ale hladový.",
+                "goals": "Najít snadnou kořist nebo odejít.",
+                "appearance": "Šedá srst prošedivělá věkem, jedno oko slepé.",
+                "health": 60
+            }
+        }
+    ]
+}
